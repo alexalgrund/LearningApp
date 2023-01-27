@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="static/main.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<body>
+<h1>Making a new account</h1>
+<p>Please fill all the fields below with care and choose yourself a proper username and password. 
+    Password must be in the lenght of 8 characters at minimum.</p>
+{% if session.username %}
+<p>Olet kirjautunut nimellä {{ session.username }}</p>
+<a href="/logout">Kirjaudu ulos</a>
+{% else %}
+<form action="/register" method="POST">
+<p>Name:<br>
+<input type="text" name="name"></p> 
+<p>Organization:<br>
+<input type="text" name="organization"></p> 
+<p>Email:<br>
+<input type="text" name="email"></p> 
+<p>Username:<br>
+<input type="text" name="username"></p> 
+<p>Password:<br>
+<input type="password" name="password1:"></p>
+<p>Retype password:<br>
+<input type="password" name="password2:"></p>
+<input type="submit" value="Make account">
+</form>
+{% endif %}
+</body>

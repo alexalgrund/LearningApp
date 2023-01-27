@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="static/main.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<body>
+<h1>Welcome to LearningApp</h1>
+
+<p>Please <a href="/register">make a new account</a> in the order to use the site or log in if you already have a one.</p>
+
+{% if session.username %}
+<p>Olet kirjautunut nimellä {{ session.username }}</p>
+<a href="/logout">Kirjaudu ulos</a>
+{% else %}
+<form action="/login" method="POST">
+<p>Username:<br>
+<input type="text" name="username"></p> 
+<p>Password:<br>
+<input type="password" name="password:"></p>
+<input type="submit" value="Log in">
+</form>
+{% endif %}
+</body>
+
+
