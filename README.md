@@ -3,3 +3,12 @@ Users are divided to students (basic users) and teachers (administrators). Regis
 Student can view a list of different courses and join them. 
 Teacher can add different elements in course area likea articles, videos etc. and also view a list of students enrolled in the course Student can 
 also view statisticall information about his proceeding like the course grades et cetera.
+
+CURRENT SITUATION OF APP (3.2.2023):
+
+I have created and finalized the basic features needed to use the app. There are now sign in and registration features on their own sites
+and they should work without a problem. When loggin app displays a summary of chosen courses of user and another summary of all courses
+which can be selected by making registration for them. Right the moment the course registration is just a visual concept and I am working
+on to get it connected with Postgresql database.
+
+fly.io.address: https://learningapp.fly.dev/
