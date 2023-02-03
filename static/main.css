@@ -3,3 +3,18 @@ body {
     max-width: 45em;
     font-family: 'Helvetica', 'Arial', sans-serif;
 }
+.container1 {
+    width: 650px;
+    height: 50px;
+    bottom: 580px;
+    position: absolute;
+    font-family: 'Helvetica', 'Arial', sans-serif;
+}
+.container2 {
+    width: 650px;
+    height: 50px;
+    bottom: 480px;
+    position: absolute;
+    font-family: 'Helvetica', 'Arial', sans-serif;
+}
+

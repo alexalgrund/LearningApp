@@ -4,11 +4,13 @@ CREATE TABLE users (
     password TEXT
 );
 
-CREATE TABLE messages (
+CREATE TABLE courses (
     id SERIAL PRIMARY KEY,
-    content TEXT,
-    user_id INTEGER REFERENCES users,
-    sent_at TIMESTAMP
+    name TEXT,
+    time TEXT
 );
 
-CREATE TABLE visitors (id SERIAL PRIMARY KEY, time TIMESTAMP);
+CREATE TABLE participants (
+    user_id INTEGER,
+    course_id INTEGER
+);

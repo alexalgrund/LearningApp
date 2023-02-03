@@ -3,22 +3,55 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <body>
-<h1>Welcome to LearningApp</h1>
-
-<p>Please <a href="/register">make a new account</a> in the order to use the site or log in if you already have a one.</p>
-
 {% if session.username %}
-<p>Olet kirjautunut nimellä {{ session.username }}</p>
-<a href="/logout">Kirjaudu ulos</a>
-{% else %}
-<form action="/login" method="POST">
-<p>Username:<br>
-<input type="text" name="username"></p> 
-<p>Password:<br>
-<input type="password" name="password:"></p>
-<input type="submit" value="Log in">
+<h1>LearningApp - {{ session.username }}</h1>
+<h2><u>My courses</u></h2>
+<form>
+{{ message }}
+{% for course in myCourses %}
+{{ course.name }}
+<p></p>
+{{ course.time }}
+<hr>
+<p></p>
+{% endfor %}
 </form>
-{% endif %}
+
+<h2><u>Future and ongoing courses in year 2023</u></h2>
+{% for course in allCourses %}
+
+<form action="/result" method="POST">
+{{ course.name }}
+<p></p>
+{{ course.time }}
+<p></p>
+<p></p><input type="submit" value="Register for the course">
+<hr>
+</form>
+{% endfor %}
+<form method="GET" action ="/">
+<form method="GET" action="/logout"></form>
+</form>
 </body>
+<p><a href="/logout">Log out</a></p>
+{% else %}
+
+<body>
+<h1>Welcome to LearningApp</h1>
+<p>Please make a new account in the order to use the site or log in if you already have a one.</p>
+<p> </p>
+<form action="/login" method="POST">
+<p>Username:<p><input type="text" name="username">
+<p>Password:<p><input type="password" name="password">
+<p></p><input type="submit" value="Log in">
+</form>
+<p>{{ message }}</p>
+</body>
+
+<div class="container1">
+<hr>
+<p><a href="/register">Make a new account</a></p>
+</div>
+{% endif %}
 
 

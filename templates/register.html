@@ -5,25 +5,18 @@
 <body>
 <h1>Making a new account</h1>
 <p>Please fill all the fields below with care and choose yourself a proper username and password. 
-    Password must be in the lenght of 8 characters at minimum.</p>
-{% if session.username %}
-<p>Olet kirjautunut nimellä {{ session.username }}</p>
-<a href="/logout">Kirjaudu ulos</a>
-{% else %}
-<form action="/register" method="POST">
-<p>Name:<br>
-<input type="text" name="name"></p> 
-<p>Organization:<br>
-<input type="text" name="organization"></p> 
-<p>Email:<br>
-<input type="text" name="email"></p> 
-<p>Username:<br>
-<input type="text" name="username"></p> 
-<p>Password:<br>
-<input type="password" name="password1:"></p>
-<p>Retype password:<br>
-<input type="password" name="password2:"></p>
-<input type="submit" value="Make account">
+Username must be 30 characters at most. Password must be between 8 - 20 characters.</p>
+
+<p> </p>
+<form action="/register" method="post">
+<p>Username:</p><input type="text" name="username">
+<p>Password:</p><input type="password" name="password1">
+<p>Retype password:</p><input type="password" name="password2">
+<p></p><input type="submit" value="Make a new account">
 </form>
-{% endif %}
+<p>{{ message }}</p>
 </body>
+<div class="container2">
+<hr>
+<p><a href="/">Return to main site</a></p>
+</div>
