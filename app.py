@@ -1,13 +1,9 @@
-from flask import Flask
 from flask import redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
-from os import getenv
 from flask_sqlalchemy import SQLAlchemy
-
-app = Flask(__name__)
-app.secret_key = getenv("SECRET_KEY")
-app.config["SQLALCHEMY_DATABASE_URI"] = getenv("DATABASE_URL").replace("://", "ql://", 1)
-db = SQLAlchemy(app)
+from main import app
+from db import db
+from admin import *
 
 @app.route("/")
 def index():
@@ -23,14 +19,24 @@ def login():
         if len(username) == 0 or len(password) == 0:
             return render_template("index.html")
         if logcheck(username, password):
-            session["username"] = username
-            message = myCourses(username)
-            print(len(message))
-            if len(message) == 0:
-                return render_template("index.html", message="\
-                    It looks like you have not seleceted any courses yet.", allCourses=showCourses())
+            if adminCheck(username):
+                session["admin"] = username
+                message = myCourses(username)
+                print(len(message))
+                if len(message) == 0:
+                    return render_template("index.html", message="\
+                        It looks like you have not seleceted any courses yet.", allCourses=showCourses())
+                else:
+                    return render_template("index.html", myCourses=message, allCourses=showCourses())   
             else:
-                return render_template("index.html", myCourses=message, allCourses=showCourses())
+                session["username"] = username
+                message = myCourses(username)
+                print(len(message))
+                if len(message) == 0:
+                    return render_template("index.html", message="\
+                        It looks like you have not seleceted any courses yet.", allCourses=showCourses())
+                else:
+                    return render_template("index.html", myCourses=message, allCourses=showCourses())
         else:
             return render_template("index.html", message="\
                 Wrong username or password. Please try again.")
@@ -118,10 +124,7 @@ def getUser(username):
     id = result.fetchone()[0]
     return id
 
-@app.route("/logout")
-def logout():
+@app.route("/userLogout")
+def userLogout():
     del session["username"]
     return redirect("/")
-
-
-

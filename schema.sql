@@ -4,6 +4,11 @@ CREATE TABLE users (
     password TEXT
 );
 
+CREATE TABLE admins (
+    username TEXT,
+    user_id INTEGER
+);
+
 CREATE TABLE courses (
     id SERIAL PRIMARY KEY,
     name TEXT,

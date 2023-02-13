@@ -3,6 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <body>
+
 {% if session.username %}
 <h1>LearningApp - {{ session.username }}</h1>
 <h2><u>My courses</u></h2>
@@ -16,10 +17,8 @@
 <p></p>
 {% endfor %}
 </form>
-
 <h2><u>Future and ongoing courses in year 2023</u></h2>
 {% for course in allCourses %}
-
 <form action="/result" method="POST">
 {{ course.name }}
 <p></p>
@@ -33,9 +32,41 @@
 <form method="GET" action="/logout"></form>
 </form>
 </body>
-<p><a href="/logout">Log out</a></p>
-{% else %}
+<p><a href="/userLogout">Log out</a></p>
 
+{% elif session.admin %}
+<h1>LearningApp - {{ session.admin }}</h1>
+<h2><u>My courses</u></h2>
+<form>
+{{ message }}
+{% for course in myCourses %}
+{{ course.name }}
+<p></p>
+{{ course.time }}
+<hr>
+<p></p>
+{% endfor %}
+</form>
+<h2><u>Future and ongoing courses in year 2023</u></h2>
+{% for course in allCourses %}
+<form action="/result" method="POST">
+{{ course.name }}
+<p></p>
+{{ course.time }}
+<p></p>
+<p></p><input type="submit" value="Register for the course">
+<hr>
+</form>
+{% endfor %}
+<form method="GET" action ="/">
+<form method="GET" action="/logout"></form>
+</form>
+</body>
+<p><a href="/adminLogout">Log out</a></p>
+<p><a href="/newcourse">Create a new course</a></p>
+
+
+{% else %}
 <body>
 <h1>Welcome to LearningApp</h1>
 <p>Please make a new account in the order to use the site or log in if you already have a one.</p>
@@ -47,7 +78,6 @@
 </form>
 <p>{{ message }}</p>
 </body>
-
 <div class="container1">
 <hr>
 <p><a href="/register">Make a new account</a></p>
