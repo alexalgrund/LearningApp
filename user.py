@@ -1,6 +1,6 @@
-from main import *
-from flask import redirect, render_template, request, session
+from main import app
 from db import db
+from flask import redirect, render_template, request, session
 
 def checkUser(username):
     sql = "SELECT id, password FROM users WHERE username=:username"
@@ -17,8 +17,7 @@ def getUser(username):
     id = result.fetchone()[0]
     return id
 
-@main.route("/logout")
-def logout():
+@app.route("/userLogout")
+def userLogout():
     del session["username"]
     return redirect("/")
-

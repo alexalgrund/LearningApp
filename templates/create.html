@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="static/main.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+{% if session.admin %}
+<body>
+<h1>Creating a new course</h1>
+<p>Create a new course by filling all the fields below. Course must have a unique name
+    and time of starting and ending must be both in the form <strong>day.month.year</strong>.
+    For example 7 January 2005 must be in the form 7.1.2005 or 07.01.2005.
+</p>
+<form action="/createCourse" method="post">
+<p>Name:</p><input type="text" name="courseName">
+<p>Time of starting:</p><input type="text" name="startTime">
+<p>Time of ending:</p><input type="text" name="endTime">
+<p></p><input type="submit" value="Create a new course">
+</form>
+<p>{{ message }}</p>
+</body>
+<hr>
+<p><a href="/login">Return to main site</a></p>
+{% endif %}

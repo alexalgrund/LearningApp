@@ -11,7 +11,7 @@ CREATE TABLE admins (
 
 CREATE TABLE courses (
     id SERIAL PRIMARY KEY,
-    name TEXT,
+    name TEXT UNIQUE,
     time TEXT
 );
 

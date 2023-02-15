@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from main import app
 from db import db
 from admin import *
+from user import *
 
 @app.route("/")
 def index():
@@ -12,7 +13,20 @@ def index():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
-        return render_template("index.html")
+        if session["admin"] != "":
+                message = myCourses(session["admin"])
+                if len(message) == 0:
+                    return render_template("index.html", message="\
+                        It looks like you have not seleceted any courses yet.", allCourses=showCourses())
+                else:
+                    return render_template("index.html", myCourses=message, allCourses=showCourses())   
+        else:
+            message = myCourses(session["username"])
+            if len(message) == 0:
+                return render_template("index.html", message="\
+                    It looks like you have not seleceted any courses yet.", allCourses=showCourses())
+            else:
+                return render_template("index.html", myCourses=message, allCourses=showCourses())
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
@@ -22,7 +36,6 @@ def login():
             if adminCheck(username):
                 session["admin"] = username
                 message = myCourses(username)
-                print(len(message))
                 if len(message) == 0:
                     return render_template("index.html", message="\
                         It looks like you have not seleceted any courses yet.", allCourses=showCourses())
@@ -31,7 +44,6 @@ def login():
             else:
                 session["username"] = username
                 message = myCourses(username)
-                print(len(message))
                 if len(message) == 0:
                     return render_template("index.html", message="\
                         It looks like you have not seleceted any courses yet.", allCourses=showCourses())
@@ -82,6 +94,17 @@ def register():
         else:
             return render_template("register.html", )
 
+def registerId(username, password):
+        if request.method == "POST":
+            hash_value = generate_password_hash(password)
+            try:
+                sql = "INSERT INTO users (username, password) VALUES (:username, :password)"
+                db.session.execute(sql, {"username":username, "password":hash_value})
+                db.session.commit()
+            except:
+                return False
+            return index()
+
 @app.route("/")
 def showCourses():
     sql = "SELECT courses.name, courses.time FROM courses"
@@ -98,33 +121,4 @@ def myCourses(username):
     messages = result.fetchall()
     return messages
 
-def registerId(username, password):
-        if request.method == "POST":
-            hash_value = generate_password_hash(password)
-            try:
-                sql = "INSERT INTO users (username, password) VALUES (:username, :password)"
-                db.session.execute(sql, {"username":username, "password":hash_value})
-                db.session.commit()
-            except:
-                return False
-            return index()
 
-def checkUser(username):
-    sql = "SELECT id, password FROM users WHERE username=:username"
-    result = db.session.execute(sql, {"username":username})
-    user = result.fetchone()
-    if not user:
-        return False
-    else:
-        return True
-
-def getUser(username):
-    sql = ("SELECT id FROM users WHERE username=:username")
-    result = db.session.execute(sql, {"username":username})
-    id = result.fetchone()[0]
-    return id
-
-@app.route("/userLogout")
-def userLogout():
-    del session["username"]
-    return redirect("/")
