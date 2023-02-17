@@ -11,23 +11,21 @@
 {{ message }}
 {% for course in myCourses %}
 {{ course.name }}
-<p></p>
 {{ course.time }}
 <hr>
 <p></p>
 {% endfor %}
 </form>
 <h2><u>Future and ongoing courses in year 2023</u></h2>
+<form action="/courseReg" method="POST">
 {% for course in allCourses %}
-<form action="/result" method="POST">
-{{ course.name }}
-<p></p>
+<input type="checkbox" name="course" value={{course.id}}> {{course.name}}
 {{ course.time }}
 <p></p>
-<p></p><input type="submit" value="Register for the course">
 <hr>
-</form>
 {% endfor %}
+<p></p><input type="submit" value="Register for the course">
+</form>
 <form method="GET" action ="/">
 <form method="GET" action="/logout"></form>
 </form>
@@ -41,23 +39,21 @@
 {{ message }}
 {% for course in myCourses %}
 {{ course.name }}
-<p></p>
 {{ course.time }}
 <hr>
 <p></p>
 {% endfor %}
 </form>
 <h2><u>Future and ongoing courses in year 2023</u></h2>
+<form action="/courseReg" method="POST">
 {% for course in allCourses %}
-<form action="/result" method="POST">
-{{ course.name }}
-<p></p>
+<input type="checkbox" name="course" value={{course.id}}> {{course.name}}
 {{ course.time }}
 <p></p>
-<p></p><input type="submit" value="Register for the course">
 <hr>
-</form>
 {% endfor %}
+<p></p><input type="submit" value="Register for the course">
+</form>
 <form method="GET" action ="/">
 <form method="GET" action="/logout"></form>
 </form>

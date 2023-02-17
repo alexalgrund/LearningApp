@@ -1,10 +1,13 @@
 from flask import redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_sqlalchemy import SQLAlchemy
+
 from main import app
 from db import db
+
 from admin import *
 from user import *
+from checkers import *
 
 @app.route("/")
 def index():
@@ -35,6 +38,8 @@ def login():
         if logcheck(username, password):
             if adminCheck(username):
                 session["admin"] = username
+                session["adminCheck"] = "on"
+                session["userCheck"] = "off"
                 message = myCourses(username)
                 if len(message) == 0:
                     return render_template("index.html", message="\
@@ -43,6 +48,8 @@ def login():
                     return render_template("index.html", myCourses=message, allCourses=showCourses())   
             else:
                 session["username"] = username
+                session["adminCheck"] = "off"
+                session["userCheck"] = "on"
                 message = myCourses(username)
                 if len(message) == 0:
                     return render_template("index.html", message="\
@@ -105,9 +112,37 @@ def registerId(username, password):
                 return False
             return index()
 
+@app.route("/courseReg", methods=["POST"])
+def courseReg():
+    courses = request.form.getlist("course")
+    for id in courses:
+        if session["adminCheck"] == "on" and session["userCheck"] == "off" and checkParticipant(session["admin"], id):
+                sql = "INSERT INTO participants (user_id, course_id) VALUES (:user_id, :course_id)"
+                db.session.execute(sql, {"user_id":getUser(session["admin"]), "course_id":id})
+                db.session.commit()
+        if session["adminCheck"] == "off" and session["userCheck"] == "on" and checkParticipant(session["username"], id):
+                sql = "INSERT INTO participants (user_id, course_id) VALUES (:user_id, :course_id)"
+                db.session.execute(sql, {"user_id":getUser(session["username"]), "course_id":id})
+                db.session.commit()
+
+    if session["adminCheck"] == "on" and session["userCheck"] == "off":
+                message = myCourses(session["admin"])
+                if len(message) == 0:
+                    return render_template("index.html", message="\
+                        It looks like you have not seleceted any courses yet.", allCourses=showCourses())
+                else:
+                    return render_template("index.html", myCourses=message, allCourses=showCourses())   
+    if session["adminCheck"] == "off" and session["userCheck"] == "on":
+        message = myCourses(session["username"])
+        if len(message) == 0:
+            return render_template("index.html", message="\
+                It looks like you have not seleceted any courses yet.", allCourses=showCourses())
+        else:
+            return render_template("index.html", myCourses=message, allCourses=showCourses())
+
 @app.route("/")
 def showCourses():
-    sql = "SELECT courses.name, courses.time FROM courses"
+    sql = "SELECT courses.id, courses.name, courses.time FROM courses"
     db.session.execute(sql)
     result = db.session.execute(sql)
     messages = result.fetchall()
@@ -120,5 +155,27 @@ def myCourses(username):
     result = db.session.execute(sql, {"user_id":getUser(username)})
     messages = result.fetchall()
     return messages
+
+def checkParticipant(username, course_id):
+    sql = "SELECT user_id FROM participants WHERE participants.user_id=:user_id AND\
+        participants.course_id=:course_id"
+    id = db.session.execute(sql, {"user_id":getUser(username), "course_id":int(course_id)})
+    messages = id.fetchone()
+    if not messages:
+        return True
+    else:
+        return False
+
+@app.route("/adminLogout")
+def adminLogout():
+    userStatus = "admin"
+    del session["admin"]
+    return redirect("/")
+
+@app.route("/userLogout")
+def userLogout():
+    userStatus = "user"
+    del session["username"]
+    return redirect("/")
 
 
