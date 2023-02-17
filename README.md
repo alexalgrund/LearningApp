@@ -20,10 +20,12 @@ missing are the specific enviroments for each individual course and this will be
 ago feedback and I am still working with some issues mentioned therein.
 
 To use LearningApp in fly.io  as a basic user create a new profile with credentials:
+
 username: user 
 password: useruser
 
 To user LearningApp in fly.io as an admin log in with credentials:
+
 username: admin
 password: adminadmin
 
