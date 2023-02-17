@@ -166,16 +166,3 @@ def checkParticipant(username, course_id):
     else:
         return False
 
-@app.route("/adminLogout")
-def adminLogout():
-    userStatus = "admin"
-    del session["admin"]
-    return redirect("/")
-
-@app.route("/userLogout")
-def userLogout():
-    userStatus = "user"
-    del session["username"]
-    return redirect("/")
-
-

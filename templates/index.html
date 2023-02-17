@@ -17,6 +17,7 @@
 {% endfor %}
 </form>
 <h2><u>Future and ongoing courses in year 2023</u></h2>
+<p>Here you can view and choose new courses for yourself. Please select the square next to the course description and click button below in the order to register.</p>
 <form action="/courseReg" method="POST">
 {% for course in allCourses %}
 <input type="checkbox" name="course" value={{course.id}}> {{course.name}}
@@ -45,6 +46,7 @@
 {% endfor %}
 </form>
 <h2><u>Future and ongoing courses in year 2023</u></h2>
+<p>Here you can view and choose new courses for yourself. Please select the square next to the course description and click the button below in the order to register.</p>
 <form action="/courseReg" method="POST">
 {% for course in allCourses %}
 <input type="checkbox" name="course" value={{course.id}}> {{course.name}}

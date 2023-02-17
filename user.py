@@ -16,3 +16,8 @@ def getUser(username):
     result = db.session.execute(sql, {"username":username})
     id = result.fetchone()[0]
     return id
+
+@app.route("/userLogout")
+def userLogout():
+    del session["username"]
+    return redirect("/")

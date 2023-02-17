@@ -8,7 +8,7 @@ from datetime import datetime
 
 @app.route("/create", methods=["GET"])
 def create():
-    if session["admin"] == "on" and session["user"] == "off":
+    if session["adminCheck"] == "on" and session["userCheck"] == "off":
         return render_template("create.html")
 
 @app.route("/createCourse", methods=["GET", "POST"])
@@ -42,4 +42,8 @@ def addCourse(courseName, startTime, endTime ):
     db.session.commit()
     return True
 
+@app.route("/adminLogout")
+def adminLogout():
+    del session["admin"]
+    return redirect("/")
 
