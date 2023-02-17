@@ -19,7 +19,7 @@ It is now also possible to use LearningApp as admin and create a new courses wit
 missing are the specific enviroments for each individual course and this will be the last thing of the project. I got a couple weeks
 ago feedback and I am still working with some issues mentioned therein.
 
-To use LearningApp in fly.io  as a basic user create a new profile with credentials:
+To use LearningApp in fly.io  as a basic user make a new profile or log in with credentials:
 
 username: user
  
