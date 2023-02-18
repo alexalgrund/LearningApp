@@ -22,6 +22,9 @@ def createCourse():
         print(endTime)
         if len(courseName) == 0 or len(startTime) == 0 or len(endTime) == 0:
             return render_template("create.html")
+        if len (courseName) > 50:
+            return render_template("create.html", message="Your given course name is too long.\
+                                   Please choose another name.")
         if checkCourse(courseName):
             return render_template("create.html", message="The course you are trying to create\
                 already exists.")

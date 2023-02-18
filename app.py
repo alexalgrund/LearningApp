@@ -35,7 +35,7 @@ def login():
         password = request.form["password"]
         if len(username) == 0 or len(password) == 0:
             return render_template("index.html")
-        if logcheck(username, password):
+        if logCheck(username, password):
             if adminCheck(username):
                 session["admin"] = username
                 session["adminCheck"] = "on"
@@ -60,18 +60,7 @@ def login():
             return render_template("index.html", message="\
                 Wrong username or password. Please try again.")
 
-def logcheck(username, password):
-    sql = "SELECT id, password FROM users WHERE username=:username"
-    result = db.session.execute(sql, {"username":username})
-    user = result.fetchone()
-    if not user:
-        return False
-    else:
-        if check_password_hash(user.password, password):
-            session["user_id"] = user.id
-            return True
-        else:
-            return False
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -156,13 +145,5 @@ def myCourses(username):
     messages = result.fetchall()
     return messages
 
-def checkParticipant(username, course_id):
-    sql = "SELECT user_id FROM participants WHERE participants.user_id=:user_id AND\
-        participants.course_id=:course_id"
-    id = db.session.execute(sql, {"user_id":getUser(username), "course_id":int(course_id)})
-    messages = id.fetchone()
-    if not messages:
-        return True
-    else:
-        return False
+
 
