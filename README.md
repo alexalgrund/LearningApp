@@ -20,10 +20,12 @@ missing are the specific enviroments for each individual course and this will be
 ago feedback and I am still working with some issues mentioned therein.
 
 To test LearningApp in fly.io as user create a new profile or log in with credentials:
+
 username: user
 password: useruser
 
 Te test LearningApp in fly.io as admin log in with credentials:
+
 username: admin
 password: adminadmin
 
