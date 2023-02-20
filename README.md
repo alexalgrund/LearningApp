@@ -26,3 +26,6 @@ password: useruser
 Te test LearningApp in fly.io as admin log in with credentials:
 username: admin
 password: adminadmin
+
+
+fly.io address: https://learningapp.fly.dev/
