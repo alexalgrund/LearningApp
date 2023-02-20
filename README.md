@@ -18,3 +18,11 @@ I have now created a functional course registarion system. It is now a bit primi
 It is now also possible to use LearningApp as admin and create a new courses with admin rights. In curren situation the only thing
 missing are the specific enviroments for each individual course and this will be the last thing of the project. I got a couple weeks
 ago feedback and I am still working with some issues mentioned therein.
+
+To test LearningApp in fly.io as user create a new profile or log in with credentials:
+username: user
+password: useruser
+
+Te test LearningApp in fly.io as admin log in with credentials:
+username: admin
+password: adminadmin

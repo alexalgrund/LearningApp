@@ -19,3 +19,7 @@ CREATE TABLE participants (
     user_id INTEGER,
     course_id INTEGER
 );
+
+INSERT INTO (username, password) VALUES ('user', 'useruser');
+INSERT INTO (username, password) VALUES ('admin', 'adminadmin')
+
