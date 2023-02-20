@@ -1,13 +1,9 @@
 from flask import redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
-from flask_sqlalchemy import SQLAlchemy
-
+from datetime import datetime
 from main import app
+import re
 from db import db
-
-from admin import *
-from user import *
-from checkers import *
 
 @app.route("/")
 def index():
@@ -129,6 +125,101 @@ def courseReg():
         else:
             return render_template("index.html", myCourses=message, allCourses=showCourses())
 
+
+def logCheck(username, password):
+    sql = "SELECT id, password FROM users WHERE username=:username"
+    result = db.session.execute(sql, {"username":username})
+    user = result.fetchone()
+    if not user:
+        return False
+    else:
+        if check_password_hash(user.password, password):
+            session["user_id"] = user.id
+            return True
+        else:
+            return False
+
+def adminCheck(username):
+    sql = "SELECT user_id FROM admins WHERE username=:username"
+    result = db.session.execute(sql, {"username":username})
+    user = result.fetchone()
+    if not user:
+        return False
+    else:
+        return True
+
+def checkParticipant(username, course_id):
+    sql = "SELECT user_id FROM participants WHERE participants.user_id=:user_id AND\
+        participants.course_id=:course_id"
+    id = db.session.execute(sql, {"user_id":getUser(username), "course_id":int(course_id)})
+    messages = id.fetchone()
+    if not messages:
+        return True
+    else:
+        return False
+
+def checkCourse(courseName):
+    sql = "SELECT id FROM courses WHERE name=:name"
+    result = db.session.execute(sql, {"name":courseName})
+    course = result.fetchone()
+    if not course:
+        return False
+    else:
+        return True
+
+def checkTime(startTime, endTime):
+    if not re.search("^[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{4}$", startTime) or not re.search("^[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{4}$", endTime):
+        return False
+    else:
+        try:
+            startSplit = startTime.split(".")
+            dateTime = datetime(int(startSplit[2]), int(startSplit[1]), int(startSplit[0]))
+            endSplit = endTime.split(".")
+            dateTime = datetime(int(endSplit[2]), int(endSplit[1]), int(endSplit[0]))
+        except:
+            return False
+        return True
+
+
+@app.route("/create", methods=["GET"])
+def create():
+    if session["adminCheck"] == "on" and session["userCheck"] == "off":
+        return render_template("create.html")
+
+@app.route("/createCourse", methods=["GET", "POST"])
+def createCourse():
+    if request.method == "GET":
+        return render_template("create.html")
+    if request.method == "POST":
+        courseName = request.form["courseName"]
+        startTime = request.form["startTime"]
+        endTime = request.form["endTime"]
+        print(endTime)
+        if len(courseName) == 0 or len(startTime) == 0 or len(endTime) == 0:
+            return render_template("create.html")
+        if len (courseName) > 50:
+            return render_template("create.html", message="Your given course name is too long.\
+                                   Please choose another name.")
+        if checkCourse(courseName):
+            return render_template("create.html", message="The course you are trying to create\
+                already exists.")
+        if not checkTime(startTime, endTime):
+            return render_template("create.html", message="Either your given time of starting or ending or both of them\
+                                   are invalid or does not exist. Please try again")
+        else:
+            addCourse(courseName, startTime, endTime)
+            return render_template("create.html", message="A new course has been created.")
+
+def addCourse(courseName, startTime, endTime ):
+    startSplit = startTime.split(".")
+    endSplit = endTime.split(".")
+    time = f"{int(startSplit[0]):01}.{int(startSplit[1]):01}.{startSplit[2]}\
+    - {int(endSplit[0]):01}.{int(endSplit[1]):01}.{endSplit[2]}"
+    sql = "INSERT INTO courses (name, time) VALUES (:name, :time)"
+    db.session.execute(sql, {"name":courseName, "time":time})
+    db.session.commit()
+    return True
+
 @app.route("/")
 def showCourses():
     sql = "SELECT courses.id, courses.name, courses.time FROM courses"
@@ -144,6 +235,33 @@ def myCourses(username):
     result = db.session.execute(sql, {"user_id":getUser(username)})
     messages = result.fetchall()
     return messages
+
+@app.route("/adminLogout")
+def adminLogout():
+    del session["admin"]
+    return redirect("/")
+
+def checkUser(username):
+    sql = "SELECT id, password FROM users WHERE username=:username"
+    result = db.session.execute(sql, {"username":username})
+    user = result.fetchone()
+    if not user:
+        return False
+    else:
+        return True
+
+def getUser(username):
+    sql = ("SELECT id FROM users WHERE username=:username")
+    result = db.session.execute(sql, {"username":username})
+    id = result.fetchone()[0]
+    return id
+
+@app.route("/userLogout")
+def userLogout():
+    del session["username"]
+    return redirect("/")
+
+
 
 
 
