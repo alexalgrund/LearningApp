@@ -1,6 +1,6 @@
 body {
     margin: auto;
-    max-width: 45em;
+    width: 40%;
     font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
@@ -8,7 +8,6 @@ nav p {
     display: inline-block;
     padding: 0 .50em;
 }
-
 
 .container1 {
     width: 650px;
@@ -25,3 +24,20 @@ nav p {
     font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }

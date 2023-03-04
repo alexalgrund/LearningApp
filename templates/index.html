@@ -2,83 +2,197 @@
 <link rel="stylesheet" href="static/main.css">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<body>
+<body style="background-color: blanchedalmond; padding: 0px;">
 
 {% if session.username %}
-<h1>LearningApp - {{ session.username }}</h1>
-<h2><u>My courses</u></h2>
+<h1><u>LearningApp - {{ session.username }}</u></h1>
+<div style="float:left;padding: 0px; padding-right: 2.5%;">
 <form>
+<li><a href="/newIssue">Start a new issue</a></li>
+</form>
+</div>
+<div style="float:left;padding: 0px;">
+<form>
+<li><a href="/logout">Log out</a></li>
+</form>
+</div>
+<divdiv style="float:left;padding: 0px;">
+<p></p>
+<h2><u>Fresh issues</u></h2>
+<p>Issues from this week</p>
 {{ message }}
+<form>
+<table>
+<tr>
+<th>Posted by</th>
+<th>Topic</th>
+<th></th>
+</tr>
+{% for is in issues %}
+<tr>
+<td>{{ is.username }}</td>
+<td>{{ is.topic }}</td>
+<td>{{ is.issue }}</td>
+</tr>
+{% endfor %}
+</table>
+<hr>
+<h2><u>My courses</u></h2>
+{{ message }}
+<form>
+<table>
+<tr>
+<th>Name</th>
+<th>Time</th>
+</tr>
 {% for course in myCourses %}
-{{ course.name }}
-{{ course.time }}
+<tr>
+<td>{{ course.name }}</td>
+<td>{{ course.time }}</td>
+</tr>
+{% endfor %}
+</table>
+<p> </p>
 <hr>
 <p></p>
-{% endfor %}
 </form>
+
 <h2><u>Future and ongoing courses in year 2023</u></h2>
 <p>Here you can view and choose new courses for yourself. Please select the square next to the course description and click button below in the order to register.</p>
 <form action="/courseReg" method="POST">
+<form>
+<table>
+<tr>
+<th></th>
+<th>Name</th>
+<th>Time</th>
+</tr>
 {% for course in allCourses %}
-<input type="checkbox" name="course" value={{course.id}}> {{course.name}}
-{{ course.time }}
-<p></p>
-<hr>
+<tr>
+<td><input type="checkbox" name="course" value={{course.id}} value=""></td>
+<td>{{course.name}}</td>
+<td>{{ course.time }}</td>
+</tr>
 {% endfor %}
+</table>
+<p> </p>
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 <p></p><input type="submit" value="Register for the course">
+<p></p>
 </form>
-<form method="GET" action ="/">
-<form method="GET" action="/logout"></form>
-</form>
-</body>
-<p><a href="/userLogout">Log out</a></p>
 
 {% elif session.admin %}
-<h1>LearningApp - {{ session.admin }}</h1>
-<h2><u>My courses</u></h2>
+<h1><u>LearningApp - {{ session.admin }}</u></h1>
+<div style="float:left;padding: 0px; padding-right: 2.5%;">
 <form>
+<li><a href="/newIssue">Start a new issue</a></li>
+</form>
+</div>
+<div style="float:left;padding: 0px; padding-right: 2.5%;">
+<form>
+<li><a href="/create">Create a new course</a></li>
+</form>
+</div>
+<div style="float:left;padding: 0px;">
+<form>
+<li><a href="/logout">Log out</a></li>
+</form>
+</div>
+<divdiv style="float:left;padding: 0px;">
+<p></p>
+</div>
+<form>
+<table>
+<h2><u>Fresh issues</u></h2>
+<p>Issues from this week</p>
 {{ message }}
+<form>
+<table>
+<tr>
+<th>Posted by</th>
+<th>Topic</th>
+<th></th>
+</tr>
+{% for is in issues %}
+<tr>
+<td>{{ is.username }}</td>
+<td>{{ is.topic }}</td>
+<td>{{ is.issue }}</td>
+</tr>
+{% endfor %}
+</table>
+<hr>
+<h2><u>My courses</u></h2>
+<p>A summary of the courses you have chosen.</p>
+{{ message }}
+<form>
+<table>
+<tr>
+<th>Name</th>
+<th>Time</th>
+</tr>
 {% for course in myCourses %}
-{{ course.name }}
-{{ course.time }}
+<tr>
+<td>{{ course.name }}</td>
+<td>{{ course.time }}</td>
+</tr>
+{% endfor %}
+</table>
+<p> </p>
 <hr>
 <p></p>
-{% endfor %}
 </form>
+
 <h2><u>Future and ongoing courses in year 2023</u></h2>
 <p>Here you can view and choose new courses for yourself. Please select the square next to the course description and click the button below in the order to register.</p>
 <form action="/courseReg" method="POST">
+
+<form>
+<table>
+<tr>
+<th></th>
+<th>Name</th>
+<th>Time</th>
+</tr>
 {% for course in allCourses %}
-<input type="checkbox" name="course" value={{course.id}}> {{course.name}}
-{{ course.time }}
-<p></p>
-<hr>
+<tr>
+<td><input type="checkbox" name="course" value={{course.id}}></td>
+<td>{{course.name}}</td>
+<td>{{ course.time }}</td>
+</tr>
 {% endfor %}
+</table>
+<p> </p>
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 <p></p><input type="submit" value="Register for the course">
+<p></p>
+</form>
 </form>
 <form method="GET" action ="/">
 <form method="GET" action="/logout"></form>
 </form>
-</body>
-<p><a href="/adminLogout">Log out</a></p>
-<body>
-<p><a href="/create">Create a new course</a></p>
-</body>
+
+
 
 {% else %}
-<body>
-<h1>Welcome to LearningApp</h1>
+<body style="background-color: blanchedalmond;">
+<h1><u>Welcome to LearningApp</u></h1>
 <p>Please make a new account in the order to use the site or log in if you already have a one.</p>
 <p> </p>
 <form action="/login" method="POST">
-<p>Username:<p><input type="text" name="username">
-<p>Password:<p><input type="password" name="password">
-<p></p><input type="submit" value="Log in">
+Username:<br>
+<input required type="text" name="username" value={{usrn}}>
+<p></p>
+Password:<br>
+<input required type="password" name="password" value={{pswrd}}>
+<br>
+    <p></p>
+<input type="submit" value="Log in">
 </form>
 <p>{{ message }}</p>
-</body>
 <hr>
 <p><a href="/register">Make a new account</a></p>
+</body>
 {% endif %}
 
 

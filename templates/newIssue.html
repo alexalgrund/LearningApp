@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="static/main.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<body style="background-color: blanchedalmond;">
+
+
+{% if session.username %}
+
+<h1><u>Start a new issue</u></h1>
+
+<div style="float:left;padding: 0px; padding-right: 2.5%;">
+<form>
+<li><a href="/login">Return to main site</a></li>
+</form>
+</div>
+<div style="float:left;padding: 0px;">
+<form>
+<li><a href="/logout">Log out</a></li>
+</form>
+</div>
+<divdiv style="float:left;padding: 0px;">
+<p></p>
+</div>
+
+<p>Here you can share a new issue with all people in LearningApp. Choose the topic
+and write a message of 1000 characters at most.
+</p>
+
+<form action="/createIssue" method="post">
+Topic: <br>
+<input required type="text" name="topic" size="30", value={{tpc}}>
+<p></p>
+Message: <br>
+<textarea required name="message" rows="8" cols="70", value={{ise}}></textarea>
+<br>
+<p></p>
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+<input type="submit" value="Send">
+</form>
+<hr>
+<p>{{ message }}</p>
+
+
+{% elif session.admin %}
+
+<h1><u>Start a new issue</u></h1>
+
+<div style="float:left;padding: 0px; padding-right: 2.5%;">
+<form>
+<li><a href="/create">Create a new course</a></li>
+</form>
+</div>
+<div style="float:left;padding: 0px; padding-right: 2.5%;">
+<form>
+<li><a href="/login">Return to main site</a></li>
+</form>
+</div>
+<div style="float:left;padding: 0px;">
+<form>
+<li><a href="/logout">Log out</a></li>
+</form>
+</div>
+<divdiv style="float:left;padding: 0px;">
+<p></p>
+</div>
+
+<p>Here you can share a new issue with all people in LearningApp. Choose the topic
+and write a message of 1000 characters at most.
+</p>
+
+<form action="/createIssue" method="post">
+Topic: <br>
+<input required type="text" name="topic" size="30", value={{tpc}}>
+<p></p>
+Message: <br>
+<textarea required name="message" rows="8" cols="70", value={{ise}}></textarea>
+<br>
+<p></p>
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+<input type="submit" value="Send">
+</form>
+<hr>
+<p>{{ message }}</p>
+
+</body>
+{% endif %}

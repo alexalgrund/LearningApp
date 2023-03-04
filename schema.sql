@@ -20,6 +20,9 @@ CREATE TABLE participants (
     course_id INTEGER
 );
 
-INSERT INTO (username, password) VALUES ('user', 'useruser');
-INSERT INTO (username, password) VALUES ('admin', 'adminadmin')
+CREATE TABLE issues (
+    username TEXT,
+    topic TEXT,
+    issue TEXT
+);
 
