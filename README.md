@@ -19,6 +19,13 @@ It is now also possible to use LearningApp as admin and create a new courses wit
 missing are the specific enviroments for each individual course and this will be the last thing of the project. I got a couple weeks
 ago feedback and I am still working with some issues mentioned therein.
 
+SITUATION OF APP (4.5.2023)
+
+Unlikely I mentioned in my last review I did not created individual pages for each course but added a message feature.
+This feature makes possible to share common affairs with all users of LearningApp. I also finalized the visual appearance of app
+and it is now mostly okay. Improvements of programing style could still be made but time is running out. Overall all the basic features 
+of app like login, registartion new account, adding new courses and issues can now be used without a problem. Only the course registration
+system is still a bit primitive.
 
 To test LearningApp in fly.io as user create a new profile or log in with credentials:
 
